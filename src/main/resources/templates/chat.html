@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	  lang="en">
+
+<head>
+	<meta th:replace="fragments/head"/>
+
+	<title>Chat</title>
+
+	<script type="application/javascript" src="js/api.js"></script>
+	<script type="application/javascript" src="js/chat.js"></script>
+</head>
+
+<body>
+	<div th:with="title=${'Chat'}" th:replace="fragments/header"></div>
+
+	<main>
+		Chatty-chit-chat
+		<p>Logged in as: <span class="state-info__data" sec:authentication="name"></span></p>
+		<p>Status: <span class="state-info__data" id="status-lbl"></span></p>
+
+		<h3>Friends</h3>
+		<table>
+			<tbody id="friends-tbl">
+			</tbody>
+		</table>
+
+		<h3>Change status</h3>
+		<form action="" id="status-form">
+			<div class="form-example">
+				<label for="status-txt">New status</label>
+				<input type="text" name="status" id="status-txt" required>
+			</div>
+			<div class="form-example">
+				<button type="submit">Change</button>
+			</div>
+		</form>
+
+		<h3>Add Friend</h3>
+		<form action="" id="friend-form">
+			<div class="form-example">
+				<label for="friend-txt">Friend username</label>
+				<input type="text" name="status" id="friend-txt" required>
+			</div>
+			<div class="form-example">
+				<button type="submit">Add</button>
+			</div>
+		</form>
+	</main>
+
+	<th:block th:replace="fragments/footer" />
+</body>
+
+</html>

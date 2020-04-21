@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+
+<!--/*@thymesVar id="title" type="java.lang.String"*/-->
+<!--/*@thymesVar id="homeActive" type="java.lang.String"*/-->
+<!--/*@thymesVar id="chatActive" type="java.lang.String"*/-->
+
+<header th:fragment="header" role="banner">
+    <img alt="Books" src="/images/bonsai-banner.jpg">
+    <h1>Chat App</h1>
+    <nav>
+        <ul>
+            <li><a th:class="${homeActive}" th:href="@{/}">home</a></li>
+            <li sec:authorize="isAuthenticated()"><a th:class="${chatActive}" th:href="@{/chat}">chat</a></li>
+        </ul>
+    </nav>
+
+    <h2 th:text="${title}"></h2>
+</header>
+
+</html>

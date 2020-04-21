@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	  lang="en">
+
+<head>
+	<meta th:replace="fragments/head"/>
+
+	<title>Home</title>
+</head>
+
+<body>
+	<div th:with="title=${'Home'}" th:replace="fragments/header"></div>
+
+	<main>
+		<div th:if="${errors.size() > 0}" class="danger">
+			<ul>
+				<li th:each="error: ${errors}" th:text="${error}"></li>
+			</ul>
+		</div>
+
+		<div sec:authorize="isAuthenticated()">
+			<p>Welcome <span sec:authentication="name"></span>!</p>
+			<p><a th:href="@{/chat}">Chat</a></p>
+			<form method="post" th:action="@{/logout}">
+				<p>
+					<input type="submit" id="logoutbutton" value="Log Out">
+				</p>
+			</form>
+		</div>
+		<div sec:authorize="isAnonymous()">
+			<form method="post" th:action="@{/login}">
+				<p>
+					<label for="username">Your email</label>
+					<input type="text" id="username" name="username" value="jan@ucll.be">
+				</p>
+				<p>
+					<label for="password">Your password</label>
+					<input type="password" id="password" name="password" value="t">
+				</p>
+				<p>
+					<input type="submit" id="loginbutton" value="Log in">
+				</p>
+			</form>
+		</div>
+	</main>
+
+	<th:block th:replace="fragments/footer" />
+</body>
+
+</html>
