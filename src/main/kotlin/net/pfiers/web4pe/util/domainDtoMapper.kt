@@ -1,13 +1,13 @@
 package net.pfiers.web4pe.util
 
 import net.pfiers.web4pe.domain.Friendship
+import net.pfiers.web4pe.domain.Message
 import net.pfiers.web4pe.domain.User
-import net.pfiers.web4pe.dto.FriendshipDto
-import net.pfiers.web4pe.dto.UserDto
-import net.pfiers.web4pe.dto.UserDtoPartial
-import net.pfiers.web4pe.dto.UserDtoPersisted
+import net.pfiers.web4pe.dto.*
 
 fun User.toDto(): UserDtoPersisted = UserDtoPersisted(uuid!!, username!!, password!!, name!!, lastName, status)
+
+fun User.toSelectionDto(): UserSelectionDto = UserSelectionDto(uuid!!)
 
 fun UserDto.toUser(): User = User().update(this)
 
@@ -31,3 +31,7 @@ fun User.update(dto: UserDtoPartial): User {
 
 
 fun Friendship.toDto() = FriendshipDto(requester!!.toDto(), requestee!!.toDto())
+
+fun Friendship.toSelectionDto() = FriendshipSelectionDto(requester!!.toSelectionDto(), requestee!!.toSelectionDto())
+
+fun Message.toDto() = MessageDto(friendship.toSelectionDto(), text)

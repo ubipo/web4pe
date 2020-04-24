@@ -4,7 +4,7 @@ import net.pfiers.web4pe.domain.UserPrincipal
 import net.pfiers.web4pe.dto.UserDto
 import net.pfiers.web4pe.dto.UserDtoPartial
 import net.pfiers.web4pe.dto.UserDtoPersisted
-import net.pfiers.web4pe.dto.UserSelectionDto
+import net.pfiers.web4pe.dto.VagueUserSelectionDto
 import net.pfiers.web4pe.repo.UserRepo
 import net.pfiers.web4pe.util.toDto
 import net.pfiers.web4pe.util.toUser
@@ -26,9 +26,9 @@ class UserService(@Autowired private val userRepo: UserRepo) : IUserService {
         return userRepo.findByUuid(uuid)?.toDto()
     }
 
-    override fun get(userSelectionDto: UserSelectionDto): UserDtoPersisted? {
-        val uuid = userSelectionDto.uuid
-        val username = userSelectionDto.username
+    override fun get(vagueUserSelectionDto: VagueUserSelectionDto): UserDtoPersisted? {
+        val uuid = vagueUserSelectionDto.uuid
+        val username = vagueUserSelectionDto.username
         return when {
             uuid != null -> get(uuid)
             username != null -> get(username)
