@@ -2,19 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:th="http://www.thymeleaf.org"
 	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-	  lang="en">
+	  lang="en"
+	  th:with="title=${'Chat'}">
 
-<head>
-	<meta th:replace="fragments/head"/>
+<th:block th:replace="fragments/head" />
 
-	<title>Chat</title>
-
-	<script type="application/javascript" src="js/api.js"></script>
-	<script type="application/javascript" src="js/chat.js"></script>
-</head>
+<script type="application/javascript" src="js/api.js"></script>
+<script type="application/javascript" src="js/chat.js"></script>
 
 <body>
-	<div th:with="title=${'Chat'}" th:replace="fragments/header"></div>
+	<div th:replace="fragments/header"></div>
 
 	<main>
 		Chatty-chit-chat

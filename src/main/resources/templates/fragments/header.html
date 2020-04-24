@@ -4,16 +4,18 @@
       lang="en">
 
 <!--/*@thymesVar id="title" type="java.lang.String"*/-->
-<!--/*@thymesVar id="homeActive" type="java.lang.String"*/-->
-<!--/*@thymesVar id="chatActive" type="java.lang.String"*/-->
+<!--/*@thymesVar id="homeActiveCls" type="java.lang.String"*/-->
+<!--/*@thymesVar id="chatActiveCls" type="java.lang.String"*/-->
+<!--/*@thymesVar id="blogActiveCls" type="java.lang.String"*/-->
 
 <header th:fragment="header" role="banner">
     <img alt="Books" src="/images/bonsai-banner.jpg">
     <h1>Chat App</h1>
     <nav>
         <ul>
-            <li><a th:class="${homeActive}" th:href="@{/}">home</a></li>
-            <li sec:authorize="isAuthenticated()"><a th:class="${chatActive}" th:href="@{/chat}">chat</a></li>
+            <li><a th:class="${homeActiveCls}" th:href="@{/}">home</a></li>
+            <li sec:authorize="isAuthenticated()"><a th:class="${chatActiveCls}" th:href="@{/chat}">chat</a></li>
+            <li><a th:class="${blogActiveCls}" th:href="@{/blog}">blog</a></li>
         </ul>
     </nav>
 

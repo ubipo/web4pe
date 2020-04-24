@@ -2,10 +2,14 @@
       xmlns:th="http://www.thymeleaf.org"
       lang="en">
 
-<th:block th:fragment="head">
+<!--/*@thymesVar id="title" type="java.lang.String"*/-->
+
+<head th:fragment="head">
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="stylesheet" type="text/css" href="/css/main.css">
-</th:block>
+
+    <title th:text="${title}"></title>
+</head>
 
 </html>

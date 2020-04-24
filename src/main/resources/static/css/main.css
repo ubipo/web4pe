@@ -143,3 +143,7 @@ nav ul li a.nav-link--active {
 .state-info__data {
 	font-weight: bold;
 }
+
+.comments-list {
+	list-style: none;
+}

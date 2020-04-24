@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 
 @Configuration
 @EnableWebSecurity
-class SecSecurityConfig() : WebSecurityConfigurerAdapter() {
+class SecurityConfig() : WebSecurityConfigurerAdapter() {
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http.csrf().disable()
@@ -19,10 +19,11 @@ class SecSecurityConfig() : WebSecurityConfigurerAdapter() {
             .and()
             .authorizeRequests()
             .antMatchers("/admin/**").hasRole("ADMIN")
-            .antMatchers("/anonymous*").anonymous()
             .antMatchers("/css/**").permitAll()
             .antMatchers("/images/**").permitAll()
             .antMatchers("/js/**").permitAll()
+            .antMatchers("/blog").permitAll()
+            .antMatchers("/ws").permitAll()
             .antMatchers("/").permitAll()
             .anyRequest().authenticated()
             .and()

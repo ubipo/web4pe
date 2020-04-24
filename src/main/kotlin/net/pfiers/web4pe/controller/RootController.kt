@@ -12,10 +12,9 @@ import org.springframework.web.servlet.ModelAndView
 @RequestMapping("/")
 class RootController(@Autowired val userService: UserService) {
     @GetMapping
-    fun getIndex(mm: ModelMap): ModelAndView {
-        val m = ModelAndView("index", mm)
-        m.addObject("errors", listOf<String>())
-        m.addObject("homeActive", "nav-link--active")
-        return m
+    fun getIndex(m: ModelMap): ModelAndView {
+        m.addAttribute("errors", listOf<String>())
+        m.addAttribute("homeActiveCls", "nav-link--active")
+        return ModelAndView("index", m)
     }
 }

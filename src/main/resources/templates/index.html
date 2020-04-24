@@ -2,16 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:th="http://www.thymeleaf.org"
 	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-	  lang="en">
+	  lang="en"
+	  th:with="title=${'Home'}">
 
-<head>
-	<meta th:replace="fragments/head"/>
-
-	<title>Home</title>
-</head>
+<th:block th:replace="fragments/head" />
 
 <body>
-	<div th:with="title=${'Home'}" th:replace="fragments/header"></div>
+	<div th:replace="fragments/header"></div>
 
 	<main>
 		<div th:if="${errors.size() > 0}" class="danger">
@@ -25,7 +22,7 @@
 			<p><a th:href="@{/chat}">Chat</a></p>
 			<form method="post" th:action="@{/logout}">
 				<p>
-					<input type="submit" id="logoutbutton" value="Log Out">
+					<input type="submit" id="logout-button" value="Log Out">
 				</p>
 			</form>
 		</div>
@@ -40,10 +37,11 @@
 					<input type="password" id="password" name="password" value="t">
 				</p>
 				<p>
-					<input type="submit" id="loginbutton" value="Log in">
+					<input type="submit" id="login-button" value="Log in">
 				</p>
 			</form>
 		</div>
+		<p><a th:href="@{/blog}">Blog</a></p>
 	</main>
 
 	<th:block th:replace="fragments/footer" />

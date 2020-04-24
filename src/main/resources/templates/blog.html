@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!--suppress HtmlFormInputWithoutLabel -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+	  lang="en"
+	  th:with="title=${'Blog'}">
+
+<th:block th:replace="fragments/head" />
+
+<script type="application/javascript" src="js/types.js"></script>
+<script type="application/javascript" src="js/stomp.js"></script>
+<script type="application/javascript" src="js/blog.js"></script>
+
+<body>
+	<div th:replace="fragments/header"></div>
+
+	<main>
+		<section class="post-sections" th:each="post: ${posts}" th:data-uuid="${post.uuid}">
+			<h3 th:text="${post.title}"></h3>
+			<ul class="comments-list" th:id="|comments-list--${post.uuid}|"></ul>
+			<form action="#" class="comment-form" th:id="|comment-form--${post.uuid}|">
+				<p>
+					<label th:for="|comment-form__name--${post.uuid}|">Name</label>
+					<input type="text" th:id="|comment-form__name--${post.uuid}|" placeholder="Elke">
+				</p>
+				<p>
+					<label th:for="|comment-form__comment--${post.uuid}|">Comment</label>
+					<input type="text" th:id="|comment-form__comment--${post.uuid}|" placeholder="Saai :(">
+				</p>
+				<p>
+					<label th:for="|comment-form__rating--${post.uuid}|">Rating</label>
+					<input type="number" min="0" max="5" th:id="|comment-form__rating--${post.uuid}|" placeholder="5">
+				</p>
+				<p>
+					<button type="submit" id="login-button">Post</button>
+				</p>
+			</form>
+		</section>
+	</main>
+
+	<th:block th:replace="fragments/footer" />
+</body>
+
+</html>
