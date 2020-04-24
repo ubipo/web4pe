@@ -75,7 +75,6 @@ input[type="submit"],button {
 	height: 30px;
 	margin-right: 6px;
 	margin-top: 2px;
-	margin-left:28%;
 	padding: 3px 3px 3px 5px;
 	font-size: 16px;
 	border-radius: 3px;
@@ -147,3 +146,54 @@ nav ul li a.nav-link--active {
 .comments-list {
 	list-style: none;
 }
+
+.screen-wrapper {
+	display: grid;
+	grid-template: 1fr / 1fr;
+}
+
+.screen-wrapper__screen {
+	grid-column: 1 / 1;
+	grid-row: 1 / 1;
+	z-index: 0;
+	background-color: #fcfcfc;
+}
+
+.screen-wrapper__screen--hidden {
+	z-index: 5;
+	display: none;
+}
+
+.message-list {
+	min-height: 15rem;
+	padding-left: 0;
+	margin-left: 0;
+}
+
+.chat-message {
+	padding: 0.5rem;
+	color: #fff;
+	border-radius: 4px;
+	border-width: 3px;
+	margin-bottom: 0.5rem;
+}
+
+.chat-message-container::after {
+	content: " ";
+	display: block;
+	height: 0;
+	clear: both;
+}
+
+.chat-message--self {
+	float: right;
+	background-color: #208b99;
+	border-color: #208b99;
+}
+
+.chat-message--other {
+	float: left;
+	background-color: #3b823b;
+	border-color: #3b823b;
+}
+

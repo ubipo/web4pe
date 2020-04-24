@@ -8,9 +8,13 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface FriendshipRepo : JpaRepository<Friendship, Long> {
-    fun findByidRequestee(requestee: User)
+    fun findByIdRequesterAndIdRequestee(requester: User, requestee: User): Friendship
 
-    fun findByidRequester(requester: User)
+    @Query(
+            "select f from #{#entityName} f where " +
+                    "(f.id.requester = :requester and f.id.requestee = :requestee) or (f.id.requester = :requestee and f.id.requestee = :requester)"
+    )
+    fun findByRequesterAndRequesteeOrInverse(requester: User, requestee: User): Friendship?
 
     @Query("select f from #{#entityName} f where f.id.requester = :user or f.id.requestee = :user")
     fun findByRequesteeOrRequester(user: User): List<Friendship>

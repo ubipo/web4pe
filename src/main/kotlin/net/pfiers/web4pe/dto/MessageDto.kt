@@ -1,11 +1,13 @@
 package net.pfiers.web4pe.dto
 
 class MessageDto() {
-    constructor(friendshipSelectionDto: FriendshipSelectionDto, text: String) : this() {
-        this.friendshipSelectionDto = friendshipSelectionDto
+    constructor(sender: UserDto, receiver: UserDto, text: String) : this() {
+        this.sender = sender
+        this.receiver = receiver
         this.text = text
     }
 
-    lateinit var friendshipSelectionDto: FriendshipSelectionDto
+    lateinit var sender: UserDto
+    lateinit var receiver: UserDto
     lateinit var text: String
 }

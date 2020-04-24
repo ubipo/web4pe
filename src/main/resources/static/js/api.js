@@ -102,6 +102,24 @@ function postFriendship(username) {
   )
 }
 
+/**
+ * Returns all messages involving self.
+ * @returns {Promise<Array<Message>>}
+ */
+function getSelfMessages() {
+  return new Promise((resolve, reject) => apiGet('message/self')
+    .then(data => resolve(data.map(Message.fromObj)))
+    .catch(reject)
+  )
+}
+
+function postChatMessage(message) {
+  return new Promise((resolve, reject) => apiPost('message', message)
+    .then(data => resolve(Message.fromObj(data)))
+    .catch(reject)
+  )
+}
+
 function postComment(comment) {
   return apiPost('comment', comment)
 }

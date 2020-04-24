@@ -18,6 +18,18 @@ class User {
   }
 }
 
+class SelectionUser {
+  uuid
+
+  constructor(uuid) {
+    this.uuid = uuid
+  }
+
+  static fromObj(obj) {
+    return new User(obj.uuid)
+  }
+}
+
 
 class Friendship {
   requester
@@ -51,6 +63,34 @@ class Friendship {
   }
 }
 
+class SelectionFriendship {
+  /** @type User */
+  friendA
+  /** @type User */
+  friendB
+
+  constructor(friendA, friendB) {
+    this.friendA = friendA;
+    this.friendB = friendB;
+  }
+
+  /**
+   * Gets the other user in the friendship
+   * @param me {User}
+   * @returns {User}
+   */
+  getOther(me) {
+    if (me.uuid === this.friendA.uuid) {
+      return this.friendB
+    } else if (me.uuid === this.friendB.uuid) {
+      return this.friendA
+    } else {
+      throw new Error("Neither friendA nor friendB have the specified uuid")
+    }
+  }
+}
+
+
 
 class BlogComment {
   name
@@ -69,3 +109,22 @@ class BlogComment {
     return new BlogComment(obj.name, obj.comment, obj.rating, obj.postUuid)
   }
 }
+
+class Message {
+  text
+  /** @type User */
+  sender
+  /** @type User */
+  receiver
+
+  constructor(text, sender, receiver) {
+    this.text = text
+    this.sender = sender
+    this.receiver = receiver
+  }
+
+  static fromObj(obj) {
+    return new Message(obj.text, obj.sender, obj.receiver)
+  }
+}
+

@@ -7,6 +7,11 @@
 
 <th:block th:replace="fragments/head" />
 
+<!--suppress JSUnresolvedLibraryURL -->
+<script type="application/javascript" src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
+<!--suppress JSUnresolvedLibraryURL -->
+<script type="application/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
 <script type="application/javascript" src="js/types.js"></script>
 <script type="application/javascript" src="js/api.js"></script>
 <script type="application/javascript" src="js/chat.js"></script>
@@ -15,37 +20,54 @@
 	<div th:replace="fragments/header"></div>
 
 	<main>
-		Chatty-chit-chat
-		<p>Logged in as: <span class="state-info__data" sec:authentication="name"></span></p>
-		<p>Status: <span class="state-info__data" id="status-lbl"></span></p>
+		<div class="screen-wrapper">
+			<div class="screen-wrapper__screen" id="management-screen">
+				Chatty-chit-chat
+				<p>Logged in as: <span class="state-info__data" sec:authentication="name"></span></p>
+				<p>Status: <span class="state-info__data" id="status-lbl"></span></p>
 
-		<h3>Friends</h3>
-		<table>
-			<tbody id="friends-tbl">
-			</tbody>
-		</table>
+				<h3>Friends</h3>
+				<table>
+					<tbody id="friends-tbl">
+					</tbody>
+				</table>
 
-		<h3>Change status</h3>
-		<form action="" id="status-form">
-			<div class="form-example">
-				<label for="status-txt">New status</label>
-				<input type="text" name="status" id="status-txt" required>
-			</div>
-			<div class="form-example">
-				<button type="submit">Change</button>
-			</div>
-		</form>
+				<h3>Change status</h3>
+				<form action="" id="status-form">
+					<div class="form-example">
+						<label for="status-txt">New status</label>
+						<input type="text" name="status" id="status-txt" required>
+					</div>
+					<div class="form-example">
+						<button type="submit">Change</button>
+					</div>
+				</form>
 
-		<h3>Add Friend</h3>
-		<form action="" id="friend-form">
-			<div class="form-example">
-				<label for="friend-txt">Friend username</label>
-				<input type="text" name="status" id="friend-txt" required>
+				<h3>Add Friend</h3>
+				<form action="" id="friend-form">
+					<div class="form-example">
+						<label for="friend-txt">Friend username</label>
+						<input type="text" name="status" id="friend-txt" required>
+					</div>
+					<div class="form-example">
+						<button type="submit">Add</button>
+					</div>
+				</form>
 			</div>
-			<div class="form-example">
-				<button type="submit">Add</button>
+			<div class="screen-wrapper__screen screen-wrapper__screen--hidden" id="chat-screen">
+				<button id="chat-back-btn">Back</button>
+				<ul class="message-list" id="message-list"></ul>
+				<form action="" id="message-form">
+					<div class="form-example">
+						<label for="friend-txt">Message</label>
+						<input type="text" name="status" id="message-txt" required>
+					</div>
+					<div class="form-example">
+						<button type="submit">Send</button>
+					</div>
+				</form>
 			</div>
-		</form>
+		</div>
 	</main>
 
 	<th:block th:replace="fragments/footer" />

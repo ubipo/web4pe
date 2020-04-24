@@ -34,4 +34,4 @@ fun Friendship.toDto() = FriendshipDto(requester!!.toDto(), requestee!!.toDto())
 
 fun Friendship.toSelectionDto() = FriendshipSelectionDto(requester!!.toSelectionDto(), requestee!!.toSelectionDto())
 
-fun Message.toDto() = MessageDto(friendship.toSelectionDto(), text)
+fun Message.toDto() = MessageDto(sender.toDto(), receiver.toDto(), text)

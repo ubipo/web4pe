@@ -10,7 +10,10 @@ class Message {
     var id: Long? = null
 
     @ManyToOne
-    lateinit var friendship: Friendship
+    lateinit var sender: User
+
+    @ManyToOne
+    lateinit var receiver: User
 
     @NotNull
     lateinit var text: String
