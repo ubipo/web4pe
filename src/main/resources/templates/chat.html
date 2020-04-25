@@ -32,40 +32,60 @@
 					</tbody>
 				</table>
 
-				<h3>Change status</h3>
-				<form action="" id="status-form">
-					<div class="form-example">
-						<label for="status-txt">New status</label>
-						<input type="text" name="status" id="status-txt" required>
-					</div>
-					<div class="form-example">
-						<button type="submit">Change</button>
-					</div>
-				</form>
+				<button id="change-status-btn">Change status</button>
+				<button id="add-friend-btn">Add friend</button>
 
-				<h3>Add Friend</h3>
-				<form action="" id="friend-form">
-					<div class="form-example">
-						<label for="friend-txt">Friend username</label>
-						<input type="text" name="status" id="friend-txt" required>
-					</div>
-					<div class="form-example">
-						<button type="submit">Add</button>
-					</div>
-				</form>
+				<div class="form-panel form-panel--hidden" id="change-status-panel">
+					<form action="" id="status-form">
+						<div class="form-example">
+							<label for="status-txt">New status</label>
+							<input type="text" name="status" id="status-txt" required>
+						</div>
+						<div class="form-example">
+							<button type="submit">Change</button>
+						</div>
+					</form>
+				</div>
+
+				<div class="form-panel form-panel--hidden" id="add-friend-panel">
+					<form action="" id="friend-form">
+						<div class="form-example">
+							<label for="friend-txt">Friend username</label>
+							<input type="text" name="status" id="friend-txt" required>
+						</div>
+						<div class="form-example">
+							<button type="submit">Add</button>
+						</div>
+					</form>
+				</div>
 			</div>
-			<div class="screen-wrapper__screen screen-wrapper__screen--hidden" id="chat-screen">
-				<button id="chat-back-btn">Back</button>
+			<div class="screen-wrapper__screen screen-wrapper__screen--hidden screen-wrapper__screen--l1" id="chat-screen">
+				<button id="chat-back-btn">&lt; Back to friends list</button>
+				<button id="chat-search-btn">Search&gt;</button>
 				<ul class="message-list" id="message-list"></ul>
 				<form action="" id="message-form">
 					<div class="form-example">
-						<label for="friend-txt">Message</label>
+						<label for="message-txt">Message</label>
 						<input type="text" name="status" id="message-txt" required>
 					</div>
 					<div class="form-example">
 						<button type="submit">Send</button>
 					</div>
 				</form>
+			</div>
+			<div class="screen-wrapper__screen screen-wrapper__screen--hidden screen-wrapper__screen--l2" id="search-chat-screen">
+				<button id="search-back-btn">&lt; Back to chat</button>
+				<p>Search for messages containing the exact search term</p>
+				<form action="" id="search-message-form">
+					<div class="form-example">
+						<label for="search-message-txt">Search term</label>
+						<input type="text" name="status" id="search-message-txt" required>
+					</div>
+					<div class="form-example">
+						<button type="submit">Search</button>
+					</div>
+				</form>
+				<ul class="search-message-list" id="search-message-list"></ul>
 			</div>
 		</div>
 	</main>

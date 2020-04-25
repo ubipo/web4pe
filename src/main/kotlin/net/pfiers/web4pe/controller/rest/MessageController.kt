@@ -18,17 +18,20 @@ import javax.validation.Valid
 @RequestMapping("/api/message")
 class MessageController(@Autowired private val messageService: MessageService, @Autowired private val userService: UserService) {
     @GetMapping
-    fun get(@RequestParam(required = false) userUuid: UUID?): List<MessageDto> {
-        if (userUuid == null) {
-            throw ResponseStatusException(HttpStatus.BAD_REQUEST,  "One of: (userUuid) must be specified")
+    fun get(@RequestParam userUuid: UUID, @RequestParam(required = false) fuzzyText: String?): List<MessageDto> {
+        return when (fuzzyText) {
+            null -> messageService.getByUser(userUuid)
+            else -> messageService.getByUserAndFuzzyText(userUuid, fuzzyText)
         }
-        return messageService.getByUser(userUuid)
     }
 
     @GetMapping("/self")
-    fun getBySelf(@AuthenticationPrincipal userPrincipal: UserPrincipal): List<MessageDto> {
+    fun getBySelf(@AuthenticationPrincipal userPrincipal: UserPrincipal, @RequestParam(required = false) fuzzyText: String?): List<MessageDto> {
         val uuid = userPrincipal.getUser().uuid
-        return messageService.getByUser(uuid)
+        return when (fuzzyText) {
+            null -> messageService.getByUser(uuid)
+            else -> messageService.getByUserAndFuzzyText(uuid, fuzzyText)
+        }
     }
 
     @PostMapping

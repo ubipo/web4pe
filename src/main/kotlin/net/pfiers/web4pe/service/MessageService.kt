@@ -20,6 +20,12 @@ class MessageService(@Autowired private val messageRepo: MessageRepo, @Autowired
         return messageRepo.findAllBySenderOrReceiver(user).map { it.toDto() }
     }
 
+    fun getByUserAndFuzzyText(uuid: UUID, fuzzyText: String): List<MessageDto> {
+        val user = userRepo.findByUuid(uuid)
+                ?: throw NoSuchElementException("User with uuid=$uuid")
+        return messageRepo.findAllBySenderOrReceiverAndFuzzyText(user, fuzzyText).map { it.toDto() }
+    }
+
     fun add(messageDto: ReceivedMessageDto): MessageDto {
         val message = Message()
         message.text = messageDto.text

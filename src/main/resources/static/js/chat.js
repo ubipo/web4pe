@@ -2,6 +2,26 @@
  * Chat client UI
  */
 
+function messageElemFromMessage(message, selfUuid, friendUuid) {
+  const eMessageLi = document.createElement('li')
+  eMessageLi.classList.add('chat-message-container')
+  const eMessageSpan = document.createElement('span')
+  eMessageSpan.classList.add('chat-message')
+  if (message.sender.uuid === selfUuid
+    && message.receiver.uuid === friendUuid) {
+    eMessageSpan.classList.add('chat-message--self')
+  } else if (message.sender.uuid === friendUuid
+    && message.receiver.uuid === selfUuid
+  ) {
+    eMessageSpan.classList.add('chat-message--other')
+  } else {
+    return undefined
+  }
+  eMessageSpan.innerText = message.text
+  eMessageLi.appendChild(eMessageSpan)
+  return eMessageLi
+}
+
 
 window.addEventListener('load', () => {
   getSelfUser().then(selfUser => {
@@ -40,12 +60,28 @@ window.addEventListener('load', () => {
       forceUpdateFriendsTbl()
     }
 
+    // == Friends ==
+
     const eChatScreen = document.getElementById('chat-screen')
     const eChatBackBtn = document.getElementById('chat-back-btn')
     const eMessageList = document.getElementById('message-list')
+    const eSearchBtn = document.getElementById('chat-search-btn')
+    const eSearchChatScreen = document.getElementById('search-chat-screen')
+    const eSearchBackBtn = document.getElementById('search-back-btn')
     eChatBackBtn.addEventListener('click', () => {
-      $(eChatScreen).toggle('blind')
+      $(eChatScreen).hide('blind')
+      $(eSearchChatScreen).hide('blind')
       chatFriend = undefined
+    })
+
+    eSearchBtn.addEventListener('click', () => {
+      $(eChatScreen).show('blind')
+      $(eSearchChatScreen).show('blind')
+    })
+
+    eSearchBackBtn.addEventListener('click', () => {
+      $(eChatScreen).show('blind')
+      $(eSearchChatScreen).hide('blind')
     })
 
     const friendsTblUpdateTimeout = 1500
@@ -87,6 +123,7 @@ window.addEventListener('load', () => {
 
     updateFriendsTbl()
 
+    // == Chat ==
 
     let chatUpdateBusy = false
     function updateChat() {
@@ -96,37 +133,32 @@ window.addEventListener('load', () => {
     }
 
     const chatUpdateTimeout = 1500
+    let nextChatUpdate = -Infinity
     function forceUpdateChat() {
       chatUpdateBusy = true
       // noinspection EqualityComparisonWithCoercionJS
       if (chatFriend == undefined) {
-        window.setTimeout(updateChat, chatUpdateTimeout)
+        if (nextChatUpdate < Date.now()) {
+          nextChatUpdate = Date.now() + chatUpdateTimeout
+          window.setTimeout(updateChat, chatUpdateTimeout)
+        }
         chatUpdateBusy = false
         return
       }
       getSelfMessages().then(messages => {
         for (let i = chatLastMsgI + 1; i < messages.length; i++) {
           const message = messages[i]
-          const eMessageLi = document.createElement('li')
-          eMessageLi.classList.add('chat-message-container')
-          const eMessageSpan = document.createElement('span')
-          eMessageSpan.classList.add('chat-message')
-          if (message.sender.uuid === selfUuid
-            && message.receiver.uuid === chatFriend.uuid) {
-            eMessageSpan.classList.add('chat-message--self')
-          } else if (message.sender.uuid === chatFriend.uuid
-            && message.receiver.uuid === selfUuid
-          ) {
-            eMessageSpan.classList.add('chat-message--other')
-          } else {
+          const eMessageLi = messageElemFromMessage(message, selfUuid, chatFriend.uuid)
+          // noinspection EqualityComparisonWithCoercionJS
+          if (eMessageLi == undefined)
             continue
-          }
-          eMessageSpan.innerText = message.text
-          eMessageLi.appendChild(eMessageSpan)
           eMessageList.append(eMessageLi)
           chatLastMsgI = i
         }
-        window.setTimeout(updateChat, chatUpdateTimeout)
+        if (nextChatUpdate < Date.now()) {
+          nextChatUpdate = Date.now() + chatUpdateTimeout
+          window.setTimeout(updateChat, chatUpdateTimeout)
+        }
         chatUpdateBusy = false
       })
     }
@@ -146,6 +178,40 @@ window.addEventListener('load', () => {
       forceUpdateChat()
     })
 
+    // == Chat search ==
+
+    const eSearchMessageList = document.getElementById('search-message-list')
+    function updateMsgSearch(query) {
+      eSearchMessageList.innerHTML = ''
+      getSelfMessagesFiltered(query).then(messages => {
+        for (const message of messages) {
+          const eMessageLi = messageElemFromMessage(message, selfUuid, chatFriend.uuid)
+          // noinspection EqualityComparisonWithCoercionJS
+          if (eMessageLi == undefined)
+            continue
+          eSearchMessageList.append(eMessageLi)
+        }
+        if (nextChatUpdate < Date.now()) {
+          nextChatUpdate = Date.now() + chatUpdateTimeout
+          window.setTimeout(updateChat, chatUpdateTimeout)
+        }
+        chatUpdateBusy = false
+      })
+    }
+
+    const eSearchMsgForm = document.getElementById('search-message-form')
+    const eSearchMsgTxt = document.getElementById('search-message-txt')
+    eSearchMsgForm.addEventListener('submit', e => {
+      e.preventDefault()
+      // noinspection EqualityComparisonWithCoercionJS
+      if (chatFriend == undefined) {
+        return
+      }
+      const query = eSearchMsgTxt.value
+      eSearchMsgTxt.value = ''
+      updateMsgSearch(query)
+    })
+
     function createFriendship(username) {
       postFriendship(username).then(() => {
         forceUpdateFriendsTbl()
@@ -160,5 +226,20 @@ window.addEventListener('load', () => {
       createFriendship(username)
       // updateStatus(status)
     })
+
+
+    const eAddFriendBtn = document.getElementById('add-friend-btn')
+    const eAddFriendPanel = document.getElementById('add-friend-panel')
+    const eChangeStatusBtn = document.getElementById('change-status-btn')
+    const eChangeStatusPanel = document.getElementById('change-status-panel')
+    eAddFriendBtn.addEventListener('click', () => {
+      $(eChangeStatusPanel).hide('blind')
+      $(eAddFriendPanel).toggle('blind')
+    })
+    eChangeStatusBtn.addEventListener('click', () => {
+      $(eAddFriendPanel).hide('blind')
+      $(eChangeStatusPanel).toggle('blind')
+    })
+
   }).catch(console.error)
 })

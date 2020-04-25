@@ -12,7 +12,7 @@ function apiCall(endpoint, method, data) {
   return new Promise((resolve, reject) => {
     const req = new XMLHttpRequest();
     req.open(method, url);
-    req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    req.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
     req.addEventListener('loadend', () => {
       if (req.status !== 200)
         reject(new Error(
@@ -29,36 +29,57 @@ function apiCall(endpoint, method, data) {
 }
 
 /**
- * Get data at an API endpoint.
+ * Call an API endpoint using jQuery.
  * @returns {Promise<Object>}
  */
-function apiGet(endpoint) {
-  return apiCall(endpoint, 'GET')
+function apiCallJquery(endpoint, method, data) {
+  const url = `/api/${endpoint}`;
+  return new Promise((resolve, reject) => {
+    const req = $.ajax(url, {
+      method: method,
+      contentType: 'application/json;charset=UTF-8',
+      data: data != null ? JSON.stringify(data) : undefined
+    })
+    req.done(res => {
+      resolve(JSON.parse(req.responseText));
+    })
+    req.fail(xhr => {
+      reject(new Error(
+        `API request failed for endpoint "${endpoint}": XHR error: HTTP status ${xhr.status}`
+      ));
+    })
+  });
 }
 
 /**
- * Put data at an API endpoint.
+ * Call an API endpoint using jQuery.
  * @returns {Promise<Object>}
  */
-function apiPut(endpoint, data) {
-  return apiCall(endpoint, 'PUT', data)
+function apiGetJquery(endpoint, data) {
+  const url = `/api/${endpoint}`;
+  return new Promise((resolve, reject) => {
+    const req = $.get({
+      url: url,
+      contentType: 'application/json;charset=UTF-8',
+      data: data
+    })
+    req.done(res => {
+      resolve(JSON.parse(req.responseText));
+    })
+    req.fail(xhr => {
+      reject(new Error(
+        `API request failed for endpoint "${endpoint}": XHR error: HTTP status ${xhr.status}`
+      ));
+    })
+  });
 }
-
-/**
- * Put data at an API endpoint.
- * @returns {Promise<Object>}
- */
-function apiPost(endpoint, data) {
-  return apiCall(endpoint, 'POST', data)
-}
-
 
 /**
  * Returns self user.
  * @returns {Promise<User>}
  */
 function getSelfUser() {
-  return new Promise((resolve, reject) => apiGet('user/self')
+  return new Promise((resolve, reject) => apiCall('user/self', 'GET')
     .then(data => resolve(User.fromObj(data)))
     .catch(reject)
   )
@@ -69,7 +90,7 @@ function getSelfUser() {
  * @returns {Promise<User>}
  */
 function putSelfUser(user) {
-  return new Promise((resolve, reject) =>apiPut('user/self', user)
+  return new Promise((resolve, reject) => apiCall('user/self', 'PUT', user)
     .then(data => resolve(User.fromObj(data)))
     .catch(reject)
   )
@@ -80,7 +101,7 @@ function putSelfUser(user) {
  * @returns {Promise<Array<User>>}
  */
 function getFriends() {
-  return new Promise((resolve, reject) => apiGet('user/self/friends')
+  return new Promise((resolve, reject) => apiCall('user/self/friends', 'GET')
     .then(data => resolve(data.map(User.fromObj)))
     .catch(reject)
   )
@@ -91,7 +112,7 @@ function getFriends() {
  * @returns {Promise<Friendship>}
  */
 function postFriendship(username) {
-  return new Promise((resolve, reject) => apiPost('friendship',
+  return new Promise((resolve, reject) => apiCall('friendship', 'POST',
     {
       requestee: {
         username
@@ -107,19 +128,28 @@ function postFriendship(username) {
  * @returns {Promise<Array<Message>>}
  */
 function getSelfMessages() {
-  return new Promise((resolve, reject) => apiGet('message/self')
+  return new Promise((resolve, reject) => apiCallJquery('message/self', 'GET')
     .then(data => resolve(data.map(Message.fromObj)))
     .catch(reject)
   )
 }
 
 function postChatMessage(message) {
-  return new Promise((resolve, reject) => apiPost('message', message)
+  return new Promise((resolve, reject) => apiCallJquery('message', 'POST', message)
     .then(data => resolve(Message.fromObj(data)))
     .catch(reject)
   )
 }
 
-function postComment(comment) {
-  return apiPost('comment', comment)
+/**
+ * Returns all messages involving self.
+ * @returns {Promise<Array<Message>>}
+ */
+function getSelfMessagesFiltered(query) {
+  return new Promise((resolve, reject) => apiGetJquery('message/self', {
+      fuzzyText: query
+    })
+    .then(data => resolve(data.map(Message.fromObj)))
+    .catch(reject)
+  )
 }

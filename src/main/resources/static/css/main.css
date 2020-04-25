@@ -160,8 +160,15 @@ nav ul li a.nav-link--active {
 }
 
 .screen-wrapper__screen--hidden {
-	z-index: 5;
 	display: none;
+}
+
+.screen-wrapper__screen--l1 {
+	z-index: 5;
+}
+
+.screen-wrapper__screen--l2 {
+	z-index: 10;
 }
 
 .message-list {
@@ -195,5 +202,13 @@ nav ul li a.nav-link--active {
 	float: left;
 	background-color: #3b823b;
 	border-color: #3b823b;
+}
+
+.form-panel {
+	/*	*/
+}
+
+.form-panel--hidden {
+	display: none;
 }
 
