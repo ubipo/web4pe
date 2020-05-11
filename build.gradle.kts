@@ -8,7 +8,7 @@ plugins {
 	kotlin("plugin.jpa") version "1.3.71"
 }
 
-group = "net.pfiers"
+group = "net.pfiers.web4pe"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 

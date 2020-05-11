@@ -212,3 +212,15 @@ nav ul li a.nav-link--active {
 	display: none;
 }
 
+.form-error {
+	color: darkred;
+}
+
+form > div {
+	margin-bottom: 1rem;
+}
+
+form > div > label {
+	display: block;
+}
+

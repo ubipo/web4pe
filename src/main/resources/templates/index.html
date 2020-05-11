@@ -27,6 +27,7 @@
 			</form>
 		</div>
 		<div sec:authorize="isAnonymous()">
+			<p><a th:href="@{/signup}">Sign up</a></p>
 			<form method="post" th:action="@{/login}">
 				<p>
 					<label for="username">Your email</label>

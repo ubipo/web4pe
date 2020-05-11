@@ -1,1 +1,1 @@
-rootProject.name = "web4pe"
+rootProject.name = "chatApp"

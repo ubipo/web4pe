@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	  lang="en"
+	  th:with="title=${'Signup'}">
+
+<th:block th:replace="fragments/head" />
+
+<body>
+	<div th:replace="fragments/header"></div>
+
+	<main>
+		<div th:if="${errors.size() > 0}" class="danger">
+			<ul>
+				<li th:each="error: ${errors}" th:text="${error}"></li>
+			</ul>
+		</div>
+
+		<div sec:authorize="isAuthenticated()">
+			<p>You're already logged in. <a th:href="@{/}">Home</a></p>
+		</div>
+		<div sec:authorize="isAnonymous()">
+			<form method="post" th:action="@{/signup}" th:object="${user}">
+				<p>* required</p>
+				<p th:if="${not #fields.globalErrors().isEmpty()}" th:text="${#fields.globalErrors()}"></p>
+				<div>
+					<p class="form-error" th:errors="*{name}"></p>
+					<label for="name">Name *</label>
+					<input type="text" id="name" th:field="*{name}" required>
+				</div>
+				<div>
+					<p class="form-error" th:errors="*{lastName}"></p>
+					<label for="last-name">Last name</label>
+					<input type="text" id="last-name" th:field="*{lastName}" >
+				</div>
+				<div>
+					<p class="form-error" th:errors="*{username}"></p>
+					<label for="username">Email *</label>
+					<input type="email" id="username" th:field="*{username}" required>
+				</div>
+				<div>
+					<p class="form-error" th:errors="*{gender}"></p>
+					<label for="gender">Gender</label>
+					<input type="text" id="gender" th:field="*{gender}" placeholder="'m', 'f', free input">
+				</div>
+				<div>
+					<p class="form-error" th:errors="*{age}"></p>
+					<label for="age">Age</label>
+					<input min="0" max="150" type="number" id="age" th:field="*{age}" >
+				</div>
+				<div>
+					<p class="form-error" th:errors="*{passwordText}"></p>
+					<label for="password-text">Password *</label>
+					<input type="password" id="password-text" th:field="*{passwordText}" required>
+				</div>
+				<div>
+					<p class="form-error" th:errors="*{passwordTextRepeated}"></p>
+					<label for="password-text-repeated">Password (repeated) *</label>
+					<input type="password" id="password-text-repeated" th:field="*{passwordTextRepeated}" required>
+				</div>
+				<div>
+					<input type="submit" id="login-button" value="Sign up">
+				</div>
+			</form>
+		</div>
+	</main>
+
+	<th:block th:replace="fragments/footer" />
+</body>
+
+</html>
